@@ -1,0 +1,15 @@
+.card img {
+  width: 100px;
+  height: 100px;
+}
+
+.deleteBtn {
+  border: 1px rgb(95, 54, 54) solid;
+  border-radius: 4px;
+  width: 60px;
+  height: 40px;
+}
+
+#army-container {
+  border: 1px solid red;
+}
