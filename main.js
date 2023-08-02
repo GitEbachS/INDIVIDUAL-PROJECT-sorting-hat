@@ -53,7 +53,7 @@ const students = [
     name: "R2D2",
     house: "Ravenclaw",
     imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZca3a3aVtTbUpuqLOT8bZDbp1oU04XjhMZRAS5frjBV3svFOftoJtgL_Am6wTM0I81Ho&usqp=CAU",
-    moldyArmy: true
+    moldyArmy: false
   }
 ]
 
@@ -84,9 +84,10 @@ const cards = (array) => {
     <div class="card" style="width: 18rem;">
       <img src="${student.imageUrl}" class="card-img-top" alt="...">
       <div class="card-body">
-        <h5 class="card-title">${student.name}</h5>
+        <h5 class="card-title">${student.moldyArmy ? "" : student.name}</h5>
         <p class="card-text">${student.house}</p>
-        <button type="button" class="deleteBtn" id="expel--${student.studentId}">Expel</button>
+        <p class="card-text">${student.moldyArmy ? `${student.name} is a VILLAIN!` : ""}</p>
+        <button type="button"class="deleteBtn" id="expel--${student.studentId}">Expel</button>
        </div>
     </div> `
   }
@@ -97,7 +98,7 @@ const studentForm = () => {
   let domString = ""
   domString += `
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-student">
+    <button type="button" id="enterBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-student">
       Enter Inside!
     </button>
     <!-- Modal -->
@@ -112,7 +113,7 @@ const studentForm = () => {
             <form id="a-form">
               <div class="mb-3">
                 <label for="name" class="form-label">Name:</label>
-                <input type="text" class="form-control" id="name" aria-describedby="nameHelp">
+                <input type="text" class="form-control" id="name" aria-describedby="nameHelp" required>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -128,9 +129,7 @@ htmlToRender('#form-container', domString);
 };
 
 
-const formBtn = document.querySelector("#form-button")
-
-
+// Separate the two groups of characters into arrays
 const separateSides = (array) => {
   const evilHouse = array.filter(student => student.moldyArmy)
   const goodHouse = array.filter(student => !student.moldyArmy)
@@ -228,17 +227,16 @@ const separateSides = (array) => {
   cardContainer.addEventListener('click', (e) => {
       
       if (e.target.id.includes('expel')) {
-        console.log(e.target.id)
           const [, id] = e.target.id.split('--');
           const index = students.findIndex(student => student.studentId === Number(id));
           students[index].moldyArmy = true;
-          
-          
+          students[index].house = "Evil Side";
+          students[index].imageUrl = 'https://assets1.ignimgs.com/2019/09/16/1280-darkartshogwartscastle-1568649983737.jpg?crop=16%3A9&width=888';
         }
+        
         separateSides(students);
+
       })
-  
-      
 }
  
 
